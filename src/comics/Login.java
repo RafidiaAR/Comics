@@ -5,12 +5,19 @@
  */
 package comics;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Rafid
  */
 public class Login extends javax.swing.JFrame {
-   
+   static String user;
     /**
      * Creates new form Login
      */
@@ -28,6 +35,8 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel5 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -36,13 +45,33 @@ public class Login extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         password = new javax.swing.JPasswordField();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        button2 = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocationByPlatform(true);
+        setUndecorated(true);
         getContentPane().setLayout(null);
+
+        jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel5MouseClicked(evt);
+            }
+        });
+        jPanel5.setLayout(null);
+
+        jLabel4.setBackground(new java.awt.Color(7, 197, 239));
+        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(7, 197, 239));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("x");
+        jPanel5.add(jLabel4);
+        jLabel4.setBounds(-23, -10, 70, 40);
+
+        getContentPane().add(jPanel5);
+        jPanel5.setBounds(328, 3, 25, 25);
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
@@ -112,18 +141,6 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 180, 30));
 
-        jPanel3.setBackground(new java.awt.Color(7, 197, 239));
-        jPanel3.setLayout(null);
-
-        jLabel3.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Login");
-        jPanel3.add(jLabel3);
-        jLabel3.setBounds(50, 0, 80, 30);
-
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 180, 30));
-
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/lock.png"))); // NOI18N
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 40, 30));
@@ -132,10 +149,22 @@ public class Login extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/admin.png"))); // NOI18N
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 40, 30));
 
+        button2.setActionCommand("btn_complete");
+        button2.setBackground(new java.awt.Color(7, 197, 239));
+        button2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        button2.setForeground(new java.awt.Color(255, 255, 255));
+        button2.setLabel("Login");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(button2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 180, 30));
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(40, 90, 280, 250);
 
-        setSize(new java.awt.Dimension(375, 417));
+        setSize(new java.awt.Dimension(359, 378));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -163,6 +192,37 @@ public class Login extends javax.swing.JFrame {
 
             // TODO add your handling code here:
     }//GEN-LAST:event_passwordMouseExited
+
+    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+        dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel5MouseClicked
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        Connection connection;
+        PreparedStatement ps;
+        
+        try{
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_comics?zeroDateTimeBehavior=convertToNull",
+                    "root","");
+            ps = connection.prepareStatement("SELECT username , password FROM tb_admin WHERE username = ? AND password = ?");
+            ps.setString(1, username.getText());
+            ps.setString(2, password.getText());
+            ResultSet result = ps.executeQuery();
+            if(result.next()){
+                new Transaksi().show();
+                user = username.getText();
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Salah!");
+                password.setText("");
+                username.requestFocus();
+            }   
+        }   
+        catch(SQLException ex){
+            JOptionPane.showMessageDialog(rootPane, "Gagal");
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,14 +260,15 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.awt.Button button2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPasswordField password;
