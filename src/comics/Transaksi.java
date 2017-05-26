@@ -347,10 +347,19 @@ public class Transaksi extends javax.swing.JFrame {
         tgllahir.setBounds(90, 260, 180, 30);
         getContentPane().add(alamat);
         alamat.setBounds(90, 180, 190, 30);
+
+        judul.setEditable(false);
+        judul.setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().add(judul);
         judul.setBounds(90, 340, 190, 30);
+
+        pengarang.setEditable(false);
+        pengarang.setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().add(pengarang);
         pengarang.setBounds(90, 410, 190, 30);
+
+        penerbit.setEditable(false);
+        penerbit.setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().add(penerbit);
         penerbit.setBounds(90, 490, 190, 30);
         getContentPane().add(tglsewa);
@@ -380,7 +389,7 @@ public class Transaksi extends javax.swing.JFrame {
         jLabel16.setBounds(50, 110, 40, 30);
 
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/33.png"))); // NOI18N
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/cal.png"))); // NOI18N
         getContentPane().add(jLabel18);
         jLabel18.setBounds(50, 560, 40, 30);
 
@@ -405,7 +414,7 @@ public class Transaksi extends javax.swing.JFrame {
         jLabel22.setBounds(50, 410, 40, 30);
 
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/33.png"))); // NOI18N
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/home.png"))); // NOI18N
         getContentPane().add(jLabel23);
         jLabel23.setBounds(50, 490, 40, 30);
 
