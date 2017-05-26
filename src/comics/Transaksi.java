@@ -423,7 +423,7 @@ public class Transaksi extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
-        dispose();        // TODO add your handling code here:
+        System.exit(0);       // TODO add your handling code here:
     }//GEN-LAST:event_jLabel12MouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
